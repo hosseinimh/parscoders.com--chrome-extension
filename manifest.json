@@ -1,0 +1,20 @@
+{
+  "name": "ParsCoders.com",
+  "version": "0.1.0",
+  "description": "Last projects",
+  "permissions": ["storage", "tabs", "downloads"],
+  "host_permissions": ["*://*/*"],
+  "background": {
+    "service_worker": "./js/background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "./images/logo.png",
+      "24": "./images/logo.png",
+      "32": "./images/logo.png"
+    },
+    "default_title": "ParsCoders.com",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3
+}
