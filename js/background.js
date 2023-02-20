@@ -1,25 +1,7 @@
-import { fetchText } from "./utils.js";
+import { getProjectCodes } from "./utils.js";
 
-const getProjects = async () => {
-  const text = await fetchText();
-
-  let index = text?.length > 0 ? 0 : -1;
-  let codes = [];
-
-  while (index !== -1) {
-    index = text.indexOf("<link>https://parscoders.com/project/", index);
-
-    if (index === -1) {
-      break;
-    }
-
-    index += 37;
-    const codesArray = text.substring(index).split("/");
-
-    if (codesArray.length > 0 && !isNaN(codesArray[0])) {
-      codes = [...codes, parseInt(codesArray[0])];
-    }
-  }
+const updateBadge = () => {
+  const codes = getProjectCodes();
 
   chrome.storage.sync.get(["codes"], (data) => {
     let oldCodes = [];
@@ -39,4 +21,4 @@ const getProjects = async () => {
 };
 
 chrome.action.setBadgeBackgroundColor({ color: "green" });
-setInterval(getProjects, 10000);
+setInterval(updateBadge, 10000);

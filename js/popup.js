@@ -21,9 +21,3 @@ const addItem = (item) => {
 };
 
 document.addEventListener("DOMContentLoaded", getProjects);
-
-chrome.runtime.onMessage.addListener((obj) => {
-  if (obj?.message === "OPEN") {
-    console.log(obj.code);
-  }
-});
