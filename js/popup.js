@@ -1,3 +1,15 @@
+import { fetchText, parseRSS } from "./utils.js";
+
+const getProjects = async () => {
+  const text = await fetchText();
+  const rss = parseRSS(text);
+
+  document.querySelector("#items").textContent = "";
+  rss.querySelectorAll("item").forEach((item) => {
+    addItem(item);
+  });
+};
+
 const addItem = (item) => {
   const a = document.createElement("a");
   a.className = "item list-group-item list-group-item-action";
@@ -8,21 +20,10 @@ const addItem = (item) => {
   document.querySelector("#items").appendChild(a);
 };
 
-const getRSS = () => {
-  fetch("https://parscoders.com/project/rss")
-    .then((res) => {
-      res.text().then((data) => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data, "application/xml");
-        document.querySelector("#items").textContent = "";
-        doc.querySelectorAll("item").forEach((item) => {
-          addItem(item);
-        });
-      });
-    })
-    .catch(() => {});
+document.addEventListener("DOMContentLoaded", getProjects);
 
-  setInterval(getRSS, 10000);
-};
-
-document.addEventListener("DOMContentLoaded", getRSS);
+chrome.runtime.onMessage.addListener((obj) => {
+  if (obj?.message === "OPEN") {
+    console.log(obj.code);
+  }
+});
